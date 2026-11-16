@@ -356,7 +356,7 @@ function hpk(k,id,fl){
  ${h.length?hgrp(h,a=>`<div class=hs onclick="hadd('${k}','${id}','${a.id}')">${hi(a)}<b>${E(a.nm)}</b><small>${E(hbBranchOf(a))}${a.cat?' · '+E(a.cat):''}</small></div>`):'<small>Nenhuma habilidade disponível. Crie uma na aba HABILIDADES.</small>'}`);
  const e=$('#hpq');if(fl&&e){e.focus();e.setSelectionRange(e.value.length,e.value.length)}
 }
-const lvb=(c,a)=>a.kind=='tree'?`<small>${(a.nodes||[]).filter(n=>(c.hl||{})[n.id]).length}/${(a.nodes||[]).length}</small>`:`<small>Nv ${(c.hl||{})[a.id]||0}</small>`;
+const lvb=(c,a)=>a.kind=='tree'?`<small> ${(a.nodes||[]).filter(n=>(c.hl||{})[n.id]).length}/${(a.nodes||[]).length}</small>`:`<small> Nv ${(c.hl||{})[a.id]||0}</small>`;
 function hadd(k,id,h){
  const c=G(k,id);
  if(!c||!canEdit(c))return toast('Você não tem permissão para alterar as habilidades.');
