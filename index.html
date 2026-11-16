@@ -335,9 +335,13 @@ function hab(k,id,fl){
  if(!fl)HBQ='';
  const edit=canEdit(c),ids=hbAssigned(c),ok=a=>!HBQ||((a.nm||'')+' '+(a.cat||'')+' '+hbBranchOf(a)).toLowerCase().includes(HBQ.toLowerCase());
  const skills=ids.map(h=>G('hb',h)).filter(a=>a&&canSeeHb(a)&&ok(a));
+ const branchGroups=hbBranchNames().map(b=>({name:b,items:skills.filter(a=>hbBranchOf(a)===b)})).filter(g=>g.items.length);
+ const skillCards=a=>`<div class=hs onclick="hbv('${a.id}','${k}','${id}')">${hi(a)}<b>${E(a.nm)}</b><small>${E(hbBranchOf(a))}</small>${lvb(c,a)}${edit?`<span class=rm onclick="event.stopPropagation();hrm('${k}','${id}','${a.id}')">×</span>`:''}</div>`;
+ const branchIcons={'ATIVAS':'⚡','PASSIVAS':'🛡','ÁRVORE':'🌳'};
+ const groupedSkills=branchGroups.map(g=>`<section class=hb-branch><div class=hgt>${branchIcons[g.name]||'✦'} ${E(g.name)}</div>${hgrp(g.items,skillCards)}</section>`).join('');
  modal('',`${bk2(k,id)}<h3>⚔ HABILIDADES — ${E(c.nm)}</h3>
  <input id=hq placeholder="🔍 buscar habilidade, categoria ou vertente..." value="${E(HBQ)}" oninput="HBQ=this.value;hab('${k}','${id}',1)">
- ${skills.length?hgrp(skills,a=>`<div class=hs onclick="hbv('${a.id}','${k}','${id}')">${hi(a)}<b>${E(a.nm)}</b><small>${E(hbBranchOf(a))}</small>${lvb(c,a)}${edit?`<span class=rm onclick="event.stopPropagation();hrm('${k}','${id}','${a.id}')">×</span>`:''}</div>`):'<small>Nenhuma habilidade adicionada a esta ficha.</small>'}
+ ${skills.length?groupedSkills:'<small>Nenhuma habilidade adicionada a esta ficha.</small>'}
  ${edit?`<div class=bar><button onclick="hpk('${k}','${id}')">＋ ADICIONAR HABILIDADE</button></div>`:'<small>👁 Visualização somente leitura.</small>'}`);
  const e=$('#hq');if(fl&&e){e.focus();e.setSelectionRange(e.value.length,e.value.length)}
 }
